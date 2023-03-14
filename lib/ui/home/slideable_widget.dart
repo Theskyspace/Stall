@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:stall/app_colors.dart';
 import 'package:stall/models/orders.dart';
 import 'package:stall/utils/database_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class OrderBlock extends StatefulWidget {
   final int id;
@@ -21,17 +25,35 @@ class OrderBlock extends StatefulWidget {
 }
 
 class OrderBlockState extends State<OrderBlock> {
+  _makingPhoneCall(phonenumber) async {
+    await launchUrlString("tel:$phonenumber");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       background: Container(
+        color: Colors.green,
+      ),
+      secondaryBackground: Container(
         color: Colors.red,
       ),
       onDismissed: ((direction) {
-        // TODO: Add code to remove the item from the list
-        widget.order.iscompleted = 1;
-        OrderDatabase.instance.update(widget.order);
-        // OrderDatabase.instance.delete(widget.id);
+        if (direction == DismissDirection.endToStart) {
+          widget.order.iscompleted = 1;
+          OrderDatabase.instance.update(widget.order);
+        } else {
+          if (widget.order.phoneNumber != "") {
+            log("Calling ${widget.order.phoneNumber}");
+            _makingPhoneCall(widget.order.phoneNumber);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("No Phone Number Found"),
+              ),
+            );
+          }
+        }
       }),
       key: UniqueKey(),
       child: Container(

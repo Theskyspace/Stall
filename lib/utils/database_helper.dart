@@ -24,6 +24,7 @@ class OrderDatabase {
   Future _createDB(Database db, int version) async {
     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final textType = 'TEXT NOT NULL';
+    final textNullType = 'TEXT';
     final boolType = 'BOOLEAN NOT NULL';
     final realType = 'REAL NOT NULL';
 
@@ -33,7 +34,8 @@ class OrderDatabase {
       ${OrderField.name} $textType,
       ${OrderField.amount} $realType,
       ${OrderField.dish} $textType,
-      ${OrderField.iscompleted} $boolType
+      ${OrderField.iscompleted} $boolType,
+      ${OrderField.phoneNumber} $textNullType
     )
     ''');
   }

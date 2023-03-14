@@ -1,13 +1,21 @@
 const String orderTable = "orders";
 
 class OrderField {
-  static const List<String> values = [id, name, amount, dish, iscompleted];
+  static const List<String> values = [
+    id,
+    name,
+    amount,
+    dish,
+    iscompleted,
+    phoneNumber
+  ];
 
   static const String id = "_id";
   static const String name = "name";
   static const String amount = "Amount";
   static const String dish = "dish";
   static const String iscompleted = "iscompleted";
+  static const String phoneNumber = "phoneNumber";
 }
 
 class Order {
@@ -16,12 +24,14 @@ class Order {
   final double amount;
   final String dish;
   int iscompleted;
+  final String phoneNumber;
 
   Order({
     this.id,
     required this.name,
     required this.amount,
     required this.dish,
+    this.phoneNumber = "",
     this.iscompleted = 0,
   });
 
@@ -31,6 +41,7 @@ class Order {
         OrderField.amount.toString(): amount,
         OrderField.dish: dish,
         OrderField.iscompleted: iscompleted,
+        OrderField.phoneNumber: phoneNumber,
       };
 
   static Order fromJson(Map<dynamic, Object?> json) => Order(
@@ -39,6 +50,7 @@ class Order {
         amount: json[OrderField.amount] as double,
         dish: json[OrderField.dish] as String,
         iscompleted: json[OrderField.iscompleted] as int,
+        phoneNumber: json[OrderField.phoneNumber] as String,
       );
 
   Order copy({
@@ -47,6 +59,7 @@ class Order {
     double? amount,
     String? dish,
     bool? iscompleted,
+    String? phoneNumber,
   }) =>
       Order(
         id: id ?? this.id,
@@ -54,5 +67,6 @@ class Order {
         amount: amount ?? this.amount,
         dish: dish ?? this.dish,
         iscompleted: iscompleted == 0 ? this.iscompleted : 2,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
       );
 }

@@ -34,6 +34,8 @@ class _AddScreenState extends State<AddScreen> {
   double amount = 0.0;
   String? name = "";
   var nameController = TextEditingController();
+  var phoneNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +65,20 @@ class _AddScreenState extends State<AddScreen> {
                   hintText: 'Akash Joshi',
                 ),
               ),
+              TextFormField(
+                keyboardType: TextInputType.phone,
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                  border: UnderlineInputBorder(),
+                  hintText: '8169840285',
+                ),
+              ),
               const SizedBox(
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 17),
+                padding: const EdgeInsets.symmetric(vertical: 17),
                 decoration: const BoxDecoration(
                     border: Border(
                         bottom: BorderSide(width: 0.5, color: Colors.grey))),
@@ -181,6 +192,7 @@ class _AddScreenState extends State<AddScreen> {
                     name: nameController.text,
                     amount: dishesList.values.elementAt(index),
                     dish: dishesList.keys.elementAt(index),
+                    phoneNumber: phoneNumberController.text,
                   );
                   await OrderDatabase.instance.create(order);
                 }
